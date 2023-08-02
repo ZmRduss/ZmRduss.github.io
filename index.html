@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZmRdUs BOT</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1>Vaše IP adresa:</h1>
+    <p id="ipAddress"></p>
+    <h1>Vaše lokace:</h1>
+    <p id="location"></p>
+
+    <script>
+        // Funkce pro získání IP adresy pomocí API
+        function getIPAddress() {
+            fetch("https://api.ipify.org?format=json")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("ipAddress").innerText = data.ip;
+                    getLocation(data.ip);
+                })
+                .catch(error => {
+                    console.error("Chyba při získávání IP adresy: ", error);
+                });
+        }
+
+        // Funkce pro získání lokace pomocí IP adresy
+        function getLocation(ip) {
+            fetch(`https://ipapi.co/${ip}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("location").innerText = `${data.city}, ${data.country_name}`;
+                    saveToLogFile(ip, data.city, data.country_name);
+                })
+                .catch(error => {
+                    console.error("Chyba při získávání lokace: ", error);
+                });
+        }
+
+        // Zavolání funkce pro získání IP adresy po načtení stránky
+        document.addEventListener("DOMContentLoaded", getIPAddress);
+
+        // Funkce pro uložení IP adresy a lokace do souboru
+        function saveToLogFile(ip, city, country) {
+            const logData = `IP adresa: ${ip}, Lokace: ${city}, ${country}\n`;
+            fetch("save_iplog.php", {
+                method: "POST",
+                body: logData
+            })
+            .catch(error => {
+                console.error("Chyba při ukládání do souboru: ", error);
+            });
+        }
+    </script>
+
+    <div class="container">
+        <h1>Přihlášení</h1>
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Přihlásit</button>
+        </form>
+        <p style="text-align:center">&nbsp;</p>
+        <p style="text-align:center">&nbsp;</p>
+        <p style="text-align:center">&nbsp;</p>
+        <p style="text-align:center">&nbsp;</p>
+        <p style="text-align:center">&nbsp;</p>
+        <p style="text-align:center">&nbsp;</p>
+        <p style="text-align:center">&nbsp;</p>
+        <p style="text-align:center">&nbsp;</p>
+        <p style="text-align:center"><span style="font-size:14px"><strong>Jelikož jste kokoti a zneuž&iacute;v&aacute;te Bot a fejkujete profily lid&iacute; v m&iacute;stnostech bude tento bot na heslo!</strong></span></p>
+
+<p style="text-align:center">&nbsp;</p>
+
+<p style="text-align:center"><strong>Přihla&scaron;ovac&iacute; ůdaje z&iacute;sk&aacute;te, tak že mě kontaktujete </strong></p>
+
+<p style="text-align:center">&nbsp;</p>
+
+<p style="text-align:center"><em><strong>ZmRdUs</strong></em></p>
+
+<p style="text-align:center">&nbsp;</p>
+
+<p style="text-align:center">&nbsp;</p>
+    </div>
+    <script src="pass.js"></script>
+</body>
+</html>
